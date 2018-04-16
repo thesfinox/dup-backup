@@ -15,7 +15,7 @@ TYPE="incremental"
 FULL="3M"
 # CA certificates to access the server
 SSL="/etc/ssl/certs/ca-certificates.crt"
-# Exclude directories
+# Exclude directories (format is: --exclude DIR1 --exclude DIR2 etc.)
 EXCL=""
 
 # New backup
