@@ -1,0 +1,27 @@
+#! /bin/bash
+
+# Server definitions: DEST, USR and PSW
+source $HOME/.duplicity/server
+# GPG definitions: KEY and PASSPHRASE
+source $HOME/.duplicity/gpg
+
+export KEY PASSPHRASE DEST USR PSW
+
+# Debug (add --dry-run to activate debug mode)
+DRY=""
+# Set incremental
+TYPE="incremental"
+# Full backup after three month
+FULL="3M"
+# CA certificates to access the server
+SSL="/etc/ssl/certs/ca-certificates.crt"
+# Exclude directories
+EXCL=""
+
+# New backup
+/usr/bin/duplicity $TYPE $DRY --asynchronous-upload --full-if-older-than $FULL --ssl-cacert-file $SSL --encrypt-sign-key $KEY $EXCL $HOME webdavs://$USR:$PSW@$DEST
+
+# Remove older backup
+/usr/bin/duplicity remove-older-than $FULL $DRY --ssl-cacert-file $SSL --encrypt-sign-key $KEY webdavs://$USR:$PSW@$DEST
+
+unset KEY PASSHPRASE DEST USR PSW
