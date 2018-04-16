@@ -1,27 +1,58 @@
 #! /bin/bash
+#
+# This is a simple script to backup your data using Duplicity
+# (clearly you need to install it). It is supposed to be a
+# daily cronjob to backup the home directory of the current
+# user, encrypt it with an encryption key and them sync it
+# with a WebDAV service like Nextcloud or Owncloud.
+#
+# You first need to set up two files inside ~/.duplicity:
+#     - server: it contains the information on the server
+#         - DEST: the URL of the WebDAV connetion
+#         - USR:  the username of the service
+#         - PSW:  the password relative to the username
+#     - gpg: it contains the information on the GNUPG keys
+#         - KEY:  the ID of the encryption key to be used
+#         - PASSPHRASE: the password relative to the key
+#
+# This is free software released under the MIT License.
+#
+# For bug report or info contact Riccardo Finotello through
+# the page on Gitlab: https://gitlab.com/thesfinox/dup-backup
+# 
+# Any help in improving the code is much appreciated.
+#
 
-# Server definitions: DEST, USR and PSW
+# Server definitions
 source $HOME/.duplicity/server
-# GPG definitions: KEY and PASSPHRASE
+
+# GPG definitions
 source $HOME/.duplicity/gpg
 
 export KEY PASSPHRASE DEST USR PSW
 
-# Debug (add --dry-run to activate debug mode)
+# Position of the executable
+EXE="/usr/bin/duplicity"
+
+# Debug (insert "--dry-run" to enable the fake mode)
 DRY=""
-# Set incremental
+
+# Set "incremental" or "full" according to your needs 
 TYPE="incremental"
-# Full backup after three month
+
+# Period of times for a full backup (e.g.: "3M" = 3 months)
 FULL="3M"
-# CA certificates to access the server
+
+# CA certificates (needed for WebDAV) - Ubuntu location
 SSL="/etc/ssl/certs/ca-certificates.crt"
-# Exclude directories (format is: --exclude DIR1 --exclude DIR2 etc.)
+
+# Exclude directories (format is: "--exclude DIR1 --exclude DIR2 etc.")
 EXCL=""
 
 # New backup
-/usr/bin/duplicity $TYPE $DRY --asynchronous-upload --full-if-older-than $FULL --ssl-cacert-file $SSL --encrypt-sign-key $KEY $EXCL $HOME webdavs://$USR:$PSW@$DEST
+$EXE $TYPE $DRY --asynchronous-upload --full-if-older-than $FULL --ssl-cacert-file $SSL --encrypt-sign-key $KEY $EXCL $HOME webdavs://$USR:$PSW@$DEST
 
 # Remove older backup
-/usr/bin/duplicity remove-older-than $FULL $DRY --ssl-cacert-file $SSL --encrypt-sign-key $KEY webdavs://$USR:$PSW@$DEST
+$EXE remove-older-than $FULL $DRY --ssl-cacert-file $SSL --encrypt-sign-key $KEY webdavs://$USR:$PSW@$DEST
 
 unset KEY PASSHPRASE DEST USR PSW
