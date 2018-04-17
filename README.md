@@ -10,12 +10,15 @@ You can install the script simply by `install backup` (to install it in the defa
 
 Once you have installed the script (and your encryption keys have been imported into the keyring), you should create a new directory using `mkdir ~/.duplicity`. The you should create two files:
 - **~/.duplicity/server** containing:
+
 ```bash
 DEST="the URL of the WebDAV"
 USR="the username"
 PSW="the password"
 ```
-- **~/.duplicity/gpg** containing
+
+- **~/.duplicity/gpg** containing:
+
 ```bash
 KEY="the ID of the encryption key"
 PASSPHRASE="the passphrase for the encryption key"
