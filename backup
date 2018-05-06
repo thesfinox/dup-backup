@@ -31,6 +31,9 @@ source $HOME/.duplicity/gpg
 
 export KEY PASSPHRASE DEST USR PSW
 
+# Backup directory
+DIR=$HOME
+
 # Position of the executable
 EXE="/usr/bin/duplicity"
 
@@ -50,7 +53,7 @@ SSL="/etc/ssl/certs/ca-certificates.crt"
 EXCL=""
 
 # New backup
-$EXE $TYPE $DRY --asynchronous-upload --full-if-older-than $FULL --ssl-cacert-file $SSL --encrypt-sign-key $KEY $EXCL $HOME webdavs://$USR:$PSW@$DEST
+$EXE $TYPE $DRY --asynchronous-upload --full-if-older-than $FULL --ssl-cacert-file $SSL --encrypt-sign-key $KEY $EXCL $DIR webdavs://$USR:$PSW@$DEST
 
 # Remove older backup
 $EXE remove-older-than $FULL $DRY --ssl-cacert-file $SSL --encrypt-sign-key $KEY webdavs://$USR:$PSW@$DEST
