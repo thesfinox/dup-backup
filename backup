@@ -24,15 +24,17 @@
 #
 
 # Server definitions
+# shellcheck disable=SC1090
 source "$HOME/.duplicity/server"
 
 # GPG definitions
+# shellcheck disable=SC1090
 source "$HOME/.duplicity/gpg"
 
 export KEY PASSPHRASE DEST USR PSW
 
 # Backup directory
-DIR=($HOME)
+DIR=$HOME
 
 # Position of the executable
 EXE="/usr/bin/duplicity"
@@ -53,17 +55,19 @@ SSL="/etc/ssl/certs/ca-certificates.crt"
 EXCL=""
 
 # Full WebDAV destination
-DAV=(webdavs://$USR:$PSW@$DEST)
+DAV="webdavs://$USR:$PSW@$DEST"
 
 # Full options
-NEW=($TYPE $DRY --asynchronous-upload --full-if-older-than $FULL --ssl-cacert-file $SSL --encrypt-sign-key $KEY $EXCL)
+NEW="$TYPE $DRY --asynchronous-upload --full-if-older-than $FULL --ssl-cacert-file $SSL --encrypt-sign-key $KEY $EXCL"
 
-OLD=(remove-older-than $FULL $DRY --ssl-cacert-file $SSL --encrypt-sign-key $KEY)
+OLD="remove-older-than $FULL $DRY --ssl-cacert-file $SSL --encrypt-sign-key $KEY"
 
 # New backup
-$EXE "${NEW[@]}" "${DIR[@]}" "${DAV[@]}"
+# shellcheck disable=SC2086
+$EXE $NEW $DIR $DAV
 
 # Remove older backup
-$EXE "${OLD[@]}" "${DAV[@]}"
+# shellcheck disable=SC2086
+$EXE $OLD $DAV
 
 unset KEY PASSHPRASE DEST USR PSW
