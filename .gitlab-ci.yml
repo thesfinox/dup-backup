@@ -1,0 +1,8 @@
+backup:
+  before_script:
+    - apt update && apt -y install shellcheck
+  script:
+    - shellcheck backup
+  artifacts:
+    paths:
+      - backup

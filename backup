@@ -24,21 +24,21 @@
 #
 
 # Server definitions
-source $HOME/.duplicity/server
+source "$HOME/.duplicity/server"
 
 # GPG definitions
-source $HOME/.duplicity/gpg
+source "$HOME/.duplicity/gpg"
 
 export KEY PASSPHRASE DEST USR PSW
 
 # Backup directory
-DIR=$HOME
+DIR="$HOME"
 
 # Position of the executable
 EXE="/usr/bin/duplicity"
 
 # Debug (insert "--dry-run" to enable the fake mode)
-DRY=""
+DRY="--dry-run"
 
 # Set "incremental" or "full" according to your needs 
 TYPE="incremental"
@@ -52,10 +52,18 @@ SSL="/etc/ssl/certs/ca-certificates.crt"
 # Exclude directories (format is: "--exclude DIR1 --exclude DIR2 etc.")
 EXCL=""
 
+# Full WebDAV destination
+DAV="webdavs://$USR:$PSW@$DEST"
+
+# Full options
+NEW="$TYPE $DRY --asynchronous-upload --full-if-older-than $FULL --ssl-cacert-file $SSL --encrypt-sign-key $KEY $EXCL"
+
+OLD="remove-older-than $FULL $DRY --ssl-cacert-file $SSL --encrypt-sign-key $KEY"
+
 # New backup
-$EXE $TYPE $DRY --asynchronous-upload --full-if-older-than $FULL --ssl-cacert-file $SSL --encrypt-sign-key $KEY $EXCL $DIR webdavs://$USR:$PSW@$DEST
+$EXE $NEW $DIR $DAV
 
 # Remove older backup
-$EXE remove-older-than $FULL $DRY --ssl-cacert-file $SSL --encrypt-sign-key $KEY webdavs://$USR:$PSW@$DEST
+$EXE $OLD $DAV
 
 unset KEY PASSHPRASE DEST USR PSW
