@@ -58,9 +58,9 @@ EXCL=""
 DAV="webdavs://$USR:$PSW@$DEST"
 
 # Full options
-NEW="-v9 $TYPE $DRY --asynchronous-upload --full-if-older-than $FULL --ssl-cacert-file $SSL --encrypt-sign-key $KEY $EXCL"
+NEW="-v4 $TYPE $DRY --asynchronous-upload --full-if-older-than $FULL --ssl-cacert-file $SSL --encrypt-sign-key $KEY $EXCL"
 
-OLD="-v9 remove-older-than $FULL $DRY --ssl-cacert-file $SSL --encrypt-sign-key $KEY"
+OLD="-v4 --force remove-older-than $FULL $DRY --ssl-cacert-file $SSL --encrypt-sign-key $KEY"
 
 # New backup
 # shellcheck disable=SC2086
