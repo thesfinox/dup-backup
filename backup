@@ -51,16 +51,16 @@ FULL="3M"
 # CA certificates (needed for WebDAV) - Ubuntu location
 SSL="/etc/ssl/certs/ca-certificates.crt"
 
-# Exclude directories (format is: "--exclude DIR1 --exclude DIR2 etc.")
+# Exclude directories (format is: "--exclude=$DIR/DIR1 --exclude=$DIR/DIR2 etc.")
 EXCL=""
 
 # Full WebDAV destination
 DAV="webdavs://$USR:$PSW@$DEST"
 
 # Full options
-NEW="-v4 $TYPE $DRY --asynchronous-upload --full-if-older-than $FULL --ssl-cacert-file $SSL --encrypt-sign-key $KEY $EXCL"
+NEW="-v3 $TYPE $DRY --asynchronous-upload --full-if-older-than $FULL --ssl-cacert-file $SSL --encrypt-sign-key $KEY $EXCL"
 
-OLD="-v4 --force remove-older-than $FULL $DRY --ssl-cacert-file $SSL --encrypt-sign-key $KEY"
+OLD="-v3 --force remove-older-than $FULL $DRY --ssl-cacert-file $SSL --encrypt-sign-key $KEY"
 
 # New backup
 # shellcheck disable=SC2086
