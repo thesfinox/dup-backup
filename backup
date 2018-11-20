@@ -24,11 +24,9 @@
 #
 
 # Server definitions
-# shellcheck disable=SC1090
 source "$HOME/.duplicity/server"
 
 # GPG definitions
-# shellcheck disable=SC1090
 source "$HOME/.duplicity/gpg"
 
 export KEY PASSPHRASE DEST USR PSW
@@ -63,11 +61,9 @@ NEW="-v3 $TYPE $DRY --asynchronous-upload --full-if-older-than $FULL --ssl-cacer
 OLD="-v3 --force remove-older-than $FULL $DRY --ssl-cacert-file $SSL --encrypt-sign-key $KEY"
 
 # New backup
-# shellcheck disable=SC2086
 $EXE $NEW $DIR $DAV
 
 # Remove older backup
-# shellcheck disable=SC2086
 $EXE $OLD $DAV
 
 unset KEY PASSHPRASE DEST USR PSW

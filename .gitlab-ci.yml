@@ -1,9 +1,0 @@
-backup:
-  before_script:
-    - apt update && apt -y install shellcheck
-  script:
-    - shellcheck backup
-    - if [ $? -ne 0 ]; then echo "Errors found"; else echo "Code looks good"; fi
-  artifacts:
-    paths:
-      - backup
