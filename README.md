@@ -30,10 +30,6 @@ Remember to properly setup the file permissions: `chmod 600 ~/.duplicity/server 
 
 You can edit the user's cron jobs with `crontab -e` (use `crontab -l` to view the cron jobs) and then insert the script at the end of it. E.g.: the entry `00 3 * * * /usr/local/bin/backup` will execute the script every day of every month at 3 a.m.
 
-## Contributions
-
-Please refer to [CONTRIBUTING.md](https://gitlab.com/thesfinox/dup-backup/blob/master/CONTRIBUTING.md).
-
 ## License
 
 This is free software released under the **MIT License**: feel free to distibute and modify the content of the script.
